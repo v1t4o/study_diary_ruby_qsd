@@ -6,8 +6,9 @@ class Category
 end
 
 class StudyItem
-  attr_accessor :name, :category, :description
-  def initialize(name:, category: Category.new, description: 'Sem descrição')
+  attr_accessor :id, :name, :category, :description
+  def initialize(id:, name:, category: Category.new, description: 'Sem descrição')
+    @id = id
     @name = name
     @category = category
     @description = description
@@ -27,9 +28,10 @@ class StudyDiary
         __________________________________\n
         ______________Menu________________\n
         [1] Cadastrar um item para estudar
-        [2] Ver todos os itens cadastrados
-        [3] Buscar um item de estudo
-        [4] Sair
+        [2] Deletar um item de estudo
+        [3] Ver todos os itens cadastrados
+        [4] Buscar um item de estudo
+        [5] Sair
         Escolha uma opção:\n
       MENU
       puts menu_options
@@ -38,6 +40,8 @@ class StudyDiary
       when 1
         create_item_for_study
       when 2
+        delete_item_for_study
+      when 3
         puts "\n\nFiltrar itens por categoria? (S, N)\n\n"
         result = gets().chomp().to_s
         if result.downcase == 's'
@@ -47,9 +51,9 @@ class StudyDiary
         else
           list_items_for_study
         end
-      when 3
-        search_item_for_study
       when 4
+        search_item_for_study
+      when 5
         puts "\n\nObrigado por usar o Diário de Estudos"
       else
         puts "\n\nOpção não encontrada. Tente novamente.\n\n"
@@ -65,20 +69,31 @@ class StudyDiary
     puts "\n\nDigite a descrição do item de estudo a ser cadastrado:\n\n"
     descricao = gets().chomp().to_s
     puts "\n\n"
-    items << StudyItem.new(name: nome, category: categoria, description: descricao)
+    id_item = items.length + 1
+    items << StudyItem.new(id: id_item, name: nome, category: categoria, description: descricao)
+  end
+
+  def delete_item_for_study
+    puts "\n\nDigite o código do item a ser deletado:\n\n"
+    item_for_delete = gets().chomp().to_i
+    if item_for_delete <= items.length
+      items.delete_at(item_for_delete - 1)
+    else
+      puts "\n\nCódigo não localizado. Tente novamente.\n\n"
+    end
   end
 
   def list_items_for_study(search_category = '')
     puts "\n\nItems Cadastrados\n\n"
     if search_category == ''
       items.each do |item|
-        puts "- #{item.name}"
+        puts "[#{item.id}] - #{item.name}"
       end
     else
       items_searched = items.select {|i| i.category.name.downcase.include? search_category.downcase}
       if items_searched.length != 0
         items_searched.each do |item|
-          puts "- #{item.name}"
+          puts "[#{item.id}] - #{item.name}"
         end
         puts "\n\n"
       else
@@ -98,7 +113,7 @@ class StudyDiary
     items_searched = items.select {|i| i.name.downcase.include? item.downcase}
     if items_searched.length != 0
       items_searched.each do |item|
-        puts "- #{item.name}"
+        puts "[#{item.id}] - #{item.name}"
       end
       puts "\n\n"
     else
