@@ -1,5 +1,5 @@
 # Diário de estudos CLI - QSD 21
-[<img src="qsd2021.png"/>](qsd2021.png)
+[<img src="/images/qsd2021.png"/>](/images/qsd2021.png)
 
 ## Conceito
 
