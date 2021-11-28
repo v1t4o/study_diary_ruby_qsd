@@ -1,4 +1,4 @@
-#!/user/bin/env ruby
+#!/usr/bin/env ruby
 
 puts '== Instalando dependências =='
 system 'gem install bundler --conservative'
@@ -15,10 +15,24 @@ begin
       id INTEGER PRIMARY KEY autoincrement,
       name varchar(255),
       category varchar (255),
+      description varchar (255),
       concluded BOOLEAN,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   SQL
+  db.execute <<~SQL
+    CREATE TABLE if not exists categories(
+      id INTEGER PRIMARY KEY autoincrement,
+      name varchar(255),
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  SQL
+
+  seed_data = ["Ruby", "Rails", "PHP", "Laravel", "HTML", "CSS", "Git"]
+
+  seed_data.each do |data|
+    db.execute "INSERT INTO categories (name) VALUES ( ? )", data
+  end
 rescue SQLite3::Exception => e
   puts e
 ensure

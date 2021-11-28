@@ -77,18 +77,20 @@ def mark_study_item_as_concluded
   print_elements(not_concluded)
   return if not_concluded.empty?
 
-  print 'Digite o código do item que deseja excluir: '
-  not_concluded[gets.to_i - 1].concluded!
+  print 'Digite o código do item que deseja concluir: '
+  #not_concluded[gets.to_i - 1].concluded!
+  StudyItem.to_concluded(gets.to_i)
 end
 
 def delete_study_item
   print_elements(StudyItem.all)
   print 'Digite o código do item a ser deletado: '
-  items.delete_at(gets.to_i - 1)
+  #items.delete_at(gets.to_i - 1)
+  StudyItem.destroy(gets.to_i)
 end
 
 clear
-load_file
+#load_file
 
 loop do
   option_selected = menu
@@ -106,7 +108,7 @@ loop do
   when SEARCH
     print_elements(search_study_items)
   when EXIT
-    save_file
+    #save_file
     puts "\n\nObrigado por usar o Diário de Estudos"
     break
   else
