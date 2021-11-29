@@ -4,3 +4,15 @@
 ## Conceito
 
 Diário de estudos CLI feito em Ruby para o programa Quero Ser Dev Locaweb 2021 com parceria da Campus Code
+
+## Preparação de ambiente
+
+```bash
+bin/setup
+```
+
+## Para execução do sistema
+
+```bash
+bin/run
+```
